@@ -1,1 +1,77 @@
+name: Single Runner Auto Build
 
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Process Directories
+        id: process
+        run: |
+          mkdir -p ./release_files
+          
+          # 初始化一个用于 Release 描述的临时文件
+          echo "### 📦 Included Plugins" > release_notes.md
+          echo "| Plugin Name | Version | Directory |" >> release_notes.md
+          echo "| :--- | :--- | :--- |" >> release_notes.md
+          
+          # 查找所有包含 spark.json 的目录
+          folders=$(find . -maxdepth 3 -name "spark.json" -printf '%h\n' | sort -u)
+          
+          while IFS= read -r folder; do
+            [ -z "$folder" ] && continue
+            echo "Processing: $folder"
+            
+            # --- 提取 spark.json 里的信息 ---
+            # version 是数组 [1,0,0]，通过 join(".") 转为 1.0.0
+            p_name=$(jq -r '.name' "$folder/spark.json")
+            p_version=$(jq -r '.version | join(".")' "$folder/spark.json")
+            
+            # 将信息写入描述表格
+            echo "| $p_name | v$p_version | \`$folder\` |" >> release_notes.md
+            
+            # --- 执行构建逻辑 ---
+            if [ -f "$folder/package.json" ]; then
+              cd "$folder"
+              npm install
+              npm run build --if-present
+              cd - > /dev/null
+            fi
+            
+            # --- 打包 ---
+            zip_name=$(echo "$folder" | sed 's|^\./||' | tr '/' '_')
+            zip -r "./release_files/${zip_name}.zip" "$folder" -x "**/node_modules/*"
+            
+          done <<< "$folders"
+          
+          # 将描述内容存入步骤输出
+          {
+            echo 'RELEASE_BODY<<EOF'
+            cat release_notes.md
+            echo 'EOF'
+          } >> $GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: success()
+        with:
+          # 使用刚才生成的 RELEASE_BODY 作为描述内容
+          body: ${{ env.RELEASE_BODY }}
+          files: ./release_files/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
