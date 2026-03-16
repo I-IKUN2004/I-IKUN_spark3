@@ -1,0 +1,10 @@
+{
+    "name": "sb3_RegexEssentials",
+    "version": [3, 4, 0],
+    "author": "铭记mingji I IKUN2004",
+    "desc": "SparkBridge3的正则基础插件",
+    "permission": "core",
+    "priority": "post",
+    "load": true,
+    "loadmode": "hybrid"
+}

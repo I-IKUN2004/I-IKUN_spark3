@@ -1,0 +1,13 @@
+{
+    "name": "LuckyDraw",
+    "author": "I IKUN2004",
+    "version": [1, 0, 0],
+    "desc": "趣味抽奖插件 - 集成绑定系统，支持智能匹配和奖品存储",
+    "loadmode": "hybrid",
+    "priority": "main",
+    "permission": "key",
+    "load": true,
+    "dependencies": {
+        "regex": ">=1.0.0"
+    }
+}

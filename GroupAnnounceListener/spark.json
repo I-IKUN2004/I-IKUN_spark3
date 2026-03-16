@@ -1,0 +1,10 @@
+{
+    "name": "GroupAnnounceListener",
+    "author": "IKUN2004",
+    "version": [1, 0, 0],
+    "desc": "监听QQ群公告并转发到Minecraft服务器",
+    "loadmode": "hybrid",
+    "priority": "main",
+    "permission": "key",
+    "load": true
+}
