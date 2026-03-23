@@ -206,15 +206,39 @@ function getRealTimeBalance(playerInfo) {
 }
 
 function getLuckyBonus() {
-    if (!config.plugin.luckyBonus.enabled) return { amount: 0, type: "none" };
-    if (Math.random() > config.plugin.luckyBonus.chance) return { amount: 0, type: "none" };
+    const luckyConfig = config.plugin.luckyBonus;
+    if (!luckyConfig.enabled) return { amount: 0, type: "none" };
+    if (Math.random() > luckyConfig.chance) return { amount: 0, type: "none" };
     
     const levelRandom = Math.random();
-    let amount = 0, type = "small";
+    let cumulativeProb = 0;
+    let amount = 0;
+    let type = "small";
+    let index = 0;
+    const types = ["small", "medium", "large"]; 
     
-    if (levelRandom <= 0.6) { amount = Math.floor(Math.random() * 51) + 50; type = "small"; }
-    else if (levelRandom <= 0.9) { amount = Math.floor(Math.random() * 200) + 101; type = "medium"; }
-    else { amount = Math.floor(Math.random() * 200) + 301; type = "large"; }
+
+    for (const [rangeStr, prob] of Object.entries(luckyConfig.distribution)) {
+        cumulativeProb += prob;
+        if (levelRandom <= cumulativeProb) {
+
+            const parts = rangeStr.split("-");
+            const min = parseInt(parts[0], 10);
+            const max = parseInt(parts[1], 10);
+            
+
+            amount = Math.floor(Math.random() * (max - min + 1)) + min;
+            type = types[index] || "large";
+            break;
+        }
+        index++;
+    }
+
+    if (amount === 0) {
+        amount = Math.floor(Math.random() * (luckyConfig.max - luckyConfig.min + 1)) + luckyConfig.min;
+        type = "small";
+    }
+    
     return { amount, type };
 }
 
