@@ -35,10 +35,10 @@ function getAdmins() {
 }
 
 function safeGetXbox(qq) {
-    let wl_api = spark.env.get('mc');
+    let wl_api = spark.env.get('mc'); 
     if (wl_api && typeof wl_api.getXbox === 'function') {
         let info = wl_api.getXbox(qq);
-        return info ? info.xbox : null;
+        return info ? info.xbox : null; 
     }
     return null;
 }
@@ -85,17 +85,17 @@ _config.initFile('config.json', {
     "^wiki\\s?(.+)$": { "cmd": "wiki", "op": false },
     "^在线人数$": { "cmd": "list", "op": false },
     "^tps$": { "cmd": "tps", "op": false },
-    "土豆": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/potato.png", "texts": "土豆服务器当前状态正常", "op": false },
-    "(?:呆|带|逮|戴|待|代|袋|歹|贷|黛)jio不": { "cmd": "trigger", "texts": "阿里嘎多美羊羊桑", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/daijiobu.jpg", "op": false },
+    "土豆": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/potato.png", "texts": "土豆服务器当前状态正常", "op": false },
+    "(?:呆|带|逮|戴|待|代|袋|歹|贷|黛)jio不": { "cmd": "trigger", "texts": "阿里嘎多美羊羊桑", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/daijiobu.jpg", "op": false },
     "(?:开服多久|开服几天|开服多长|这个服开几|这个服开多)": { "cmd": "bdstime", "op": false },
     "可爱捏$": { "cmd": "trigger", "img": "https://bestdori.com/assets/cn/stamp/01_rip/stamp_001007.png", "op": false },
-    "(?:服主|辅助|腐竹|fuzhu|腐猪|附注|扶住|副主|扶助|腐主)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/fuzhu.jpg", "op": false },
-    "(?:为什么开服|为什么要开服|为啥开服|为啥要开服|开服为啥|开服是为啥|开服是为了啥|开服是为了什么|开服是因为什么)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/why.jpg", "op": false },
-    "(?:狗狗是怎么做到天天开心)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/happy.jpg", "op": false },
-    "(?:mc|启动)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/start.jpg", "op": false },
-    "(?:喜报|跑路)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/paolu.jpg", "op": false },
-    "(?:崩了)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/crash.jpg", "op": false },
-    "(?:我知道你很急)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/RegexEssentials/ji.jpg", "op": false },
+    "(?:服主|辅助|腐竹|fuzhu|腐猪|附注|扶住|副主|扶助|腐主)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/fuzhu.jpg", "op": false },
+    "(?:为什么开服|为什么要开服|为啥开服|为啥要开服|开服为啥|开服是为啥|开服是为了啥|开服是为了什么|开服是因为什么)": { "cmd": "trigger", "img": "./plugins/sparkbridge2/plugins/sb3_RegexEssentials/why.jpg", "op": false },
+    "(?:狗狗是怎么做到天天开心)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/happy.jpg", "op": false },
+    "(?:mc|启动)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/start.jpg", "op": false },
+    "(?:喜报|跑路)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/paolu.jpg", "op": false },
+    "(?:崩了)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/crash.jpg", "op": false },
+    "(?:我知道你很急)": { "cmd": "trigger", "img": "./plugins/sparkbridge3/plugins/sb3_RegexEssentials/ji.jpg", "op": false },
     "sb": { "cmd": "trigger", "delete_msg": true, "ban": 60, "op": false },
     "(.+)": { "cmd": "bind", "op": false },
     "^移除绑定\\s?(\\d{1,10})\\s?": { "cmd": "UNbind", "op": true },
@@ -143,7 +143,7 @@ for (const [pattern, details] of Object.entries(essentialRegexs)) {
 }
 
 if (needUpdateConfig) {
-    _config.updateFile("config.json", regexs, JSON5);
+    _config.updateFile("config.json", regexs); 
     regexs = JSON5.parse(_config.getFile('config.json'));
 }
 
@@ -189,12 +189,12 @@ spark.on("config.update.RegexEssentials", (k, v) => {
         case 'EnableQueryPos': regexs.plugin.EnableQueryPos = v; break;
         case 'EnableJoinMoneyTip': regexs.plugin.EnableJoinMoneyTip = v; break;
     }
-
-    _config.updateFile("config.json", regexs, JSON5);
+    
+    _config.updateFile("config.json", regexs); 
     if (k === 'MoneyType' || k === 'MoneyName') {
-        _config.updateFile("data.json", plugin_data, JSON5);
+        _config.updateFile("data.json", plugin_data);
     }
-
+    
     regexs = JSON5.parse(_config.getFile('config.json'));
     plugin_data = JSON5.parse(_config.getFile('data.json'));
     MoneyName = plugin_data.MoneyName;
@@ -206,28 +206,28 @@ if (typeof global.hasNotifiedCard === 'undefined') global.hasNotifiedCard = {};
 spark.on('message.group.normal', (event, sendReply) => {
     const { raw_message: message, group_id: groupId, user_id: userId, message_id: messageId, sender: Sender } = event;
     if (groupId != getGroup()) return;
-
+    
     if (debug) logger.debug(message);
 
     try {
         const cleanedMessage = formatMsg(message).trim();
-        const playerXboxId = safeGetXbox(userId);
+        const playerXboxId = safeGetXbox(userId); 
         let playerXuid = null;
         if (playerXboxId) playerXuid = data.name2xuid(playerXboxId);
-
+        
         let isQQAdmin = (Sender.role === 'owner' || Sender.role === 'admin');
         const admins = getAdmins();
         let isConfigAdmin = admins.includes(String(userId)) || admins.includes(Number(userId));
 
         if (regexs.plugin.EnableCardSync && playerXboxId && getXboxInfo(playerXboxId) && !isQQAdmin && !isConfigAdmin) {
             if (!(global.cardSyncCooldown[userId] && global.cardSyncCooldown[userId] > Date.now())) {
-
-                let baseName = playerXboxId;
+                
+                let baseName = playerXboxId; 
                 if (regexs.plugin.EnableCustomName && playerXuid) {
                     let nick = getNickName(playerXuid);
-                    if (nick && nick !== "未命名") baseName = stripColors(nick);
+                    if (nick && nick !== "未命名") baseName = stripColors(nick); 
                 }
-
+                
                 let currentTitle = "";
                 try {
                     if (ll.hasExported("PTitle", "getwearch")) {
@@ -239,31 +239,31 @@ spark.on('message.group.normal', (event, sendReply) => {
                         if (wearData[playerXboxId] && wearData[playerXboxId] !== "未佩戴" && wearData[playerXboxId] !== "无称号") currentTitle = wearData[playerXboxId];
                     }
                 } catch(e) {}
-
+                
                 currentTitle = currentTitle.replace(/§[0-9a-fk-or]/ig, "").trim();
                 baseName = baseName.replace(/§[0-9a-fk-or]/ig, "").trim();
-
+                
                 let newCard = "";
                 if (currentTitle === "") {
                     newCard = baseName;
                 } else {
                     newCard = (regexs.plugin.NameCardFormat || "{title} {name}").replace("{title}", currentTitle).replace("{name}", baseName);
                 }
-
+                
                 newCard = newCard.replace(/\s+/g, " ").trim();
                 if (newCard.length > 20) newCard = newCard.substring(0, 20);
-
+                
                 let currentCard = Sender.card || Sender.nickname || "";
-                let cleanCurrentCard = currentCard.replace(/\s+/g, " ").trim();
-
+                let cleanCurrentCard = currentCard.replace(/\s+/g, " ").trim(); 
+                
                 if (cleanCurrentCard !== newCard) {
-                    global.cardSyncCooldown[userId] = Date.now() + 10000;
+                    global.cardSyncCooldown[userId] = Date.now() + 10000; 
                     try {
                         let payload = { action: "set_group_card", params: { group_id: Number(groupId), user_id: Number(userId), card: String(newCard) } };
                         spark.QClient.sendWSPack(payload);
-
+                        
                         if (global.hasNotifiedCard[userId] !== newCard) {
-                            global.hasNotifiedCard[userId] = newCard;
+                            global.hasNotifiedCard[userId] = newCard; 
                             let broadcastMsg = [msgbuilder.at(userId), msgbuilder.text(`\n✨ 您的专属身份已同步！\n`), msgbuilder.text(`📛 新名片: ${newCard}`)];
                             sendReply(msgbuilder.format(broadcastMsg));
                         }
@@ -277,10 +277,10 @@ spark.on('message.group.normal', (event, sendReply) => {
         if (!playerXboxId && regexs.plugin.EnableBindRemind) {
             const currentName = Sender.card || Sender.nickname || "";
             if (/[\u4e00-\u9fa5]/.test(currentName)) {
-                if (!cleanedMessage.startsWith("绑定") && !cleanedMessage.startsWith("bind") &&
+                if (!cleanedMessage.startsWith("绑定") && !cleanedMessage.startsWith("bind") && 
                     !cleanedMessage.includes("addwl") && !cleanedMessage.includes("ABind")) {
                     let realNameTry = resolveRealName(currentName);
-                    let isTaken = getXboxInfo(realNameTry);
+                    let isTaken = getXboxInfo(realNameTry); 
                     if (!isTaken) {
                         const now = Date.now();
                         const lastTime = bindRemindCooldown[userId] || 0;
@@ -296,7 +296,7 @@ spark.on('message.group.normal', (event, sendReply) => {
         const getSenderDisplayName = () => {
             if (!playerXuid) return "未绑定";
             let nick = getNickName(playerXuid);
-            if (nick && nick !== "未命名") return stripColors(`${nick}(${playerXboxId})`);
+            if (nick && nick !== "未命名") return stripColors(`${nick}(${playerXboxId})`); 
             return playerXboxId;
         };
 
@@ -311,7 +311,7 @@ spark.on('message.group.normal', (event, sendReply) => {
                 }
 
                 switch (command) {
-                    case 'trigger':
+                    case 'trigger':   
                         if (video) sendReply(msgbuilder.video(video));
                         if (record) sendReply(msgbuilder.record(record));
                         if (imagePath) sendReply(msgbuilder.img(imagePath));
@@ -319,17 +319,17 @@ spark.on('message.group.normal', (event, sendReply) => {
                         if (ban && ban != -1 && !isConfigAdmin) spark.QClient.sendWSPack(packbuilder.GroupBanPack(groupId, userId, ban));
                         if (DeleteMsg && DeleteMsg == true && !isConfigAdmin) spark.QClient.sendWSPack(packbuilder.DeleteMsgPack(messageId));
                         break;
-
-                    case 'bind':
+                         
+                    case 'bind':   
                         break;
 
-                    case 'ABind': {
+                    case 'ABind': {   
                         let OPbind = regex.exec(cleanedMessage);
                         let targetQQ = OPbind[1];
                         let inputName = OPbind[2].trim();
                         let realName = resolveRealName(inputName);
                         let RecipientName = safeGetXbox(targetQQ);
-
+                        
                         if (!RecipientName) {
                             let BindQQ = getXboxInfo(realName);
                             if (BindQQ != false) {
@@ -349,15 +349,15 @@ spark.on('message.group.normal', (event, sendReply) => {
                         break;
                     }
 
-                    case 'Xuidbind': {
+                    case 'Xuidbind': {  
                         let Xuidbind = regex.exec(cleanedMessage);
                         let inputSelfName = Xuidbind[1].trim();
                         if (inputSelfName == '') return sendReply(`❌ 请勿绑定虚空玩家名`);
-
+                        
                         let realSelfName = resolveRealName(inputSelfName);
                         let XuidrecipientNameQQ = getXboxInfo(realSelfName);
                         let MyBoundName = safeGetXbox(userId);
-
+                        
                         if (XuidrecipientNameQQ != false) {
                             if (XuidrecipientNameQQ == userId) return sendReply(`✅ 已成功绑定:${realSelfName}\n无需重复绑定`);
                             return sendReply(`❌ "${realSelfName}" 已经被 ${XuidrecipientNameQQ} 绑定`);
@@ -376,12 +376,12 @@ spark.on('message.group.normal', (event, sendReply) => {
                         break;
                     }
 
-                    case 'add': case 'reduce': case 'set': case 'pay': case 'wallet':
+                    case 'add': case 'reduce': case 'set': case 'pay': case 'wallet': 
                         if (!Economy) return sendReply("❌ 经济组件加载失败");
                         handleEconomy(command, regex, cleanedMessage, sendReply, playerXboxId, playerXuid, plugin_data, getSenderDisplayName);
                         break;
 
-                    case 'bdstime':
+                    case 'bdstime':   
                         const msgTemp = regexs.plugin.BeginningDream.sendText;
                         const dreamDate = new Date(
                             regexs.plugin.BeginningDream.Y, regexs.plugin.BeginningDream.M - 1, regexs.plugin.BeginningDream.D,
@@ -393,7 +393,7 @@ spark.on('message.group.normal', (event, sendReply) => {
                         sendReply(`⏳ ${msgR}`);
                         break;
 
-                    case 'list':
+                    case 'list':   
                         let List_RealPlayers = [];
                         let List_SimulatedPlayers = [];
                         mc.getOnlinePlayers().forEach((player) => {
@@ -409,7 +409,7 @@ spark.on('message.group.normal', (event, sendReply) => {
                         if (List_SimulatedPlayers.length > 0) sendReply(`🤖 当前在线假人: ${List_SimulatedPlayers.length}\n${List_SimulatedPlayers.join(", ")}`);
                         break;
 
-                    case 'tps':
+                    case 'tps':   
                         let ver = mc.getBDSVersion();
                         let protocol = mc.getServerProtocolVersion();
                         let players = mc.getOnlinePlayers();
@@ -422,7 +422,7 @@ spark.on('message.group.normal', (event, sendReply) => {
                         sendReply(`📊 服务器状态 (Lite)\n⚡ 版本: ${ver} (协议${protocol})\n👥 在线: ${players.length} 人\n📶 平均延迟: ${avgPing}ms`);
                         break;
 
-                    case 'query': {
+                    case 'query': {   
                         let results = regex.exec(cleanedMessage);
                         let targetQQ = results[1];
                         let targetName = safeGetXbox(targetQQ);
@@ -435,8 +435,8 @@ spark.on('message.group.normal', (event, sendReply) => {
                         sendReply(`🔍 查询结果\nQQ：${targetQQ}\n绑定ID：${display}\n💰 余额：${queryMoney}\n⚙️ 状态：${qqmoney_switch}`);
                         break;
                     }
-
-                    case 'queryPos':
+                    
+                    case 'queryPos':   
                         if (!regexs.plugin.EnableQueryPos) return sendReply("❌ 该功能已被管理员关闭");
                         handleMisc(command, regex, cleanedMessage, sendReply, event, regexs, playerXboxId, playerXuid, getSenderDisplayName);
                         break;
@@ -449,7 +449,7 @@ spark.on('message.group.normal', (event, sendReply) => {
                         if (!regexs.plugin.EnableBountySystem) return sendReply("❌ 悬赏系统已被管理员关闭");
                         handleMisc(command, regex, cleanedMessage, sendReply, event, regexs, playerXboxId, playerXuid, getSenderDisplayName);
                         break;
-                    case 'divination':
+                    case 'divination': 
                     case 'queryQQ':
                     case 'wiki':
                     case 'GroupCardSet':
@@ -474,10 +474,10 @@ mc.listen('onJoin', (pl) => {
         let hasInitialized = true;
         if (plugin_data.data[pl.realName] == undefined) {
             plugin_data.data[pl.realName] = false;
-            _config.updateFile('data.json', plugin_data, JSON5);
+            _config.updateFile('data.json', plugin_data); 
             hasInitialized = false;
         }
-
+        
         if (regexs.plugin.EnableJoinMoneyTip) {
             setTimeout(() => {
                 let player = mc.getPlayer(pl.xuid);
@@ -501,7 +501,7 @@ mc.listen("onServerStarted", () => {
                 if (!pl.isSimulatedPlayer()) {
                     plugin_data.data[pl.realName] = !plugin_data.data[pl.realName];
                     pl.tell(`${MC_PREFIX}${plugin_data.data[pl.realName] ? "§a群聊经济已开启" : "§c群聊经济已关闭"}`);
-                    _config.updateFile('data.json', plugin_data, JSON5);
+                    _config.updateFile('data.json', plugin_data);
                 } else output.error(`此命令不支持模拟玩家执行!`);
             } else {
                 regexs = JSON5.parse(_config.getFile('config.json'));
@@ -518,30 +518,30 @@ mc.listen("onPlayerDie", (player, source) => {
     if (!player || !source || !source.isPlayer()) return;
     let killer = source.toPlayer();
     if (!killer || player.xuid === killer.xuid) return;
-
+    
     let bountyData = JSON5.parse(_config.getFile('bounty.json') || "{}");
     if (!bountyData[player.xuid] || bountyData[player.xuid].total <= 0) return;
-
+    
     let reward = bountyData[player.xuid].total;
     let killerNick = stripColors(getNickName(killer.xuid) && getNickName(killer.xuid) !== "未命名" ? getNickName(killer.xuid) : killer.realName);
     let deadNick = stripColors(getNickName(player.xuid) && getNickName(player.xuid) !== "未命名" ? getNickName(player.xuid) : player.realName);
-
+    
     Economy.add(killer.xuid, reward);
     delete bountyData[player.xuid];
-    _config.updateFile('bounty.json', bountyData, JSON5);
-
+    _config.updateFile('bounty.json', bountyData);
+    
     let weaponItem = killer.getHand();
     let weaponStr = (weaponItem && !weaponItem.isNull()) ? weaponItem.name : "空手/拳头";
     if (weaponItem && weaponItem.isEnchanted) weaponStr = `[附魔] ` + weaponStr;
-
+    
     let pos = player.pos;
     let dimStr = pos.dim === "主世界" || pos.dim === "Overworld" ? "主世界" : (pos.dim === "下界" || pos.dim === "Nether" ? "下界" : "末地");
     let locStr = `${dimStr} (X:${pos.x.toFixed(0)}, Y:${pos.y.toFixed(0)}, Z:${pos.z.toFixed(0)})`;
 
     mc.broadcast(`\n§6§l╔════════════════╗\n§l§e   🩸 悬赏终结 🩸\n§6§l╠════════════════╣\n§f 猎人：§a${killerNick}\n§f 使用：§c${weaponStr}\n§f 制裁了：§7${deadNick}\n§f 夺得：§g${reward} 金币\n§6§l╚════════════════╝\n`);
-
+    
     mc.runcmdEx('execute as @a at @s run playsound random.levelup @s ~ ~ ~ 1 1');
-
+    
     spark.QClient.sendGroupMsg(getGroup(), `🩸 【猎杀战报】悬赏已终结！\n━━━━━━━━━━━━━━\n🗡️ 猎人：${killerNick}\n💀 死者：${deadNick} (已被制裁)\n🔪 凶器：${weaponStr}\n📍 地点：${locStr}\n💰 提现：${reward} ${MoneyName} (已打入猎人账户)\n━━━━━━━━━━━━━━\n⚖️ 正义也许会迟到，但赏金永远不会！`);
 });
 
@@ -589,7 +589,7 @@ function replacePlaceholders(str) {
 
 function handleEconomy(cmd, regex, msg, reply, xboxId, xuid, pData, getSenderDisplay) {
     let details = regex.exec(msg);
-    let senderDisplay = stripColors(getSenderDisplay());
+    let senderDisplay = stripColors(getSenderDisplay()); 
     if (cmd === 'wallet') {
         if (!xboxId) return reply(`⚠️ 你并未绑定白名单!`, true);
         if (!xuid) return reply(`❌ 无法获取XUID`);
@@ -612,7 +612,7 @@ function handleEconomy(cmd, regex, msg, reply, xboxId, xuid, pData, getSenderDis
         let myMoney = Economy.get(xuid);
         if (amount <= 0 || myMoney < amount) return reply("❌ 金额无效或余额不足");
         if (xuid == targetXuid) return reply("⚠️ 不能转给自己");
-
+        
         if (Economy.trans(xuid, targetXuid, amount, regexs.plugin.PayNote)) {
             let tNick = getNickName(targetXuid);
             let targetDisplay = stripColors((tNick && tNick !== "未命名") ? `${tNick}(${targetName})` : targetName);
@@ -656,7 +656,7 @@ function handleMisc(cmd, regex, msg, reply, event, regexs, playerXboxId, playerX
         let targetPlayer = mc.getPlayer(targetXuid);
         if (!targetPlayer) { reply(`😴 玩家 [${display}] 当前不在线。`); return; }
         let pos = targetPlayer.pos;
-        let dimName = pos.dim;
+        let dimName = pos.dim;      
         let dimZh = dimName === "主世界" || dimName === "Overworld" ? "🟢 主世界" : (dimName === "下界" || dimName === "Nether" ? "🔴 下界" : "🟣 末地");
         let handItem = targetPlayer.getHand();
         let handStr = (handItem && !handItem.isNull()) ? handItem.name : "空手";
@@ -676,7 +676,7 @@ function handleMisc(cmd, regex, msg, reply, event, regexs, playerXboxId, playerX
         if (!targetPlayer) { reply(`😴 玩家 [${targetObj.realName}] 不在线，无法查背包。`); return; }
         let nick = getNickName(targetObj.xuid);
         let display = stripColors((nick && nick !== "未命名") ? `${nick}(${targetObj.realName})` : targetObj.realName);
-        let itemsMap = {};
+        let itemsMap = {}; 
         let totalValuableCount = 0;
         const junkList = ["minecraft:dirt", "minecraft:cobblestone", "minecraft:stone", "minecraft:gravel", "minecraft:netherrack", "minecraft:sand", "minecraft:rotten_flesh", "minecraft:bone"];
         const scanContainer = (container) => {
@@ -729,14 +729,14 @@ function handleMisc(cmd, regex, msg, reply, event, regexs, playerXboxId, playerX
         let bountyData = JSON5.parse(_config.getFile('bounty.json') || "{}");
         if (!bountyData[targetObj.xuid]) { bountyData[targetObj.xuid] = { name: targetObj.realName, total: 0 }; }
         bountyData[targetObj.xuid].total += amount;
-        _config.updateFile('bounty.json', bountyData, JSON5);
+        _config.updateFile('bounty.json', bountyData);
         let senderDisplay = stripColors(getSenderDisplay());
         let tNick = getNickName(targetObj.xuid);
         let targetDisplay = stripColors((tNick && tNick !== "未命名") ? `${tNick}(${targetObj.realName})` : targetObj.realName);
         let groupMsg = `📜 【地下悬赏令】已张贴！\n━━━━━━━━━━━━━━━━━\n🎯 猎物：[${targetDisplay}]\n💰 赏金：${bountyData[targetObj.xuid].total} ${MoneyName}\n👤 雇主：[${senderDisplay}]\n━━━━━━━━━━━━━━━━━\n🎙️ 雇主留言："谁能提着他的头来见我，这笔钱就是谁的！"\n⚔️ (此悬赏全服有效，击杀目标后赏金系统自动秒结)`;
         reply(groupMsg);
         mc.broadcast(`\n§4§l╔════════════════╗\n§l§c  📜 全服通缉令\n§4§l╠════════════════╣\n§f 恶徒：\n  §c${targetDisplay}\n§f 的项上人头被买下了！\n§f 赏金：§g${bountyData[targetObj.xuid].total} 金币\n§f 猎人们，擦亮刀剑吧！\n§4§l╚════════════════╝\n`);
-
+        
         mc.runcmdEx('execute as @a at @s run playsound random.anvil_use @s ~ ~ ~ 1 0.8');
         return;
     }
@@ -806,12 +806,12 @@ function formatMsg(msg) {
     let result = msg.replace(regex, (match, p1, p2) => {
         if (p1 === 'at') {
             let qqNum = extractQQNumber(p2);
-            return ` ${qqNum} `;
+            return ` ${qqNum} `; 
         }
         const map = { 'image': '[图片]', 'record': '[语音]', 'video': '[视频]' };
         return map[p1] || match;
     });
-
+    
     result = result.replace(/[\u200B-\u200D\uFEFF]/g, '');
     result = result.replace(/\s+/g, ' ');
     return result;
